@@ -1,0 +1,123 @@
+﻿@model IEnumerable<MultiplexCinema.Models.Screening>
+
+@{
+    ViewData["Title"] = "Strona Główna";
+}
+
+<div class="jumbotron text-center bg-light p-5">
+    <h1 class="display-4 fw-bold">Witaj w Kinie Online!</h1>
+    <p class="lead">Oferujemy najnowsze seanse filmowe w najlepszych cenach. Zarezerwuj swój bilet już dziś!</p>
+    <a class="btn btn-primary btn-lg mt-3" href="/Movies" role="button">Zobacz Filmy</a>
+</div>
+@if (User?.IsInRole("Admin") == true)
+{
+    <div class="alert alert-success text-center mt-5">
+        <strong>Całkowita suma przychodu ze sprzedaży biletów: </strong>@ViewBag.TotalRevenue.ToString("C")
+    </div>
+}
+@{
+    ViewData["Title"] = "Seanse dzisiaj";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-5">Seanse dzisiaj</h2>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th>Tytuł filmu</th>
+                <th>Godzina</th>
+                <th>Sala</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var screening in Model)
+            {
+                <tr>
+                    <td>@screening.Movie.Title</td>
+                    <td>@screening.ScreeningTime.ToString("HH:mm")</td>
+                    <td>@screening.Auditorium.Name</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+
+    @if (User?.Identity?.IsAuthenticated == true)
+    {
+        <div class="mt-5">
+            <h4 class="text-center">Twoje zakupione bilety:</h4>
+            <div class="table-responsive mt-4">
+                <table class="table table-bordered">
+                    <thead class="table-secondary">
+                    <tr>
+                        <th>Numer miejsca</th>
+                        <th>Film</th>
+                        <th>Seans</th>
+                        <th>Cena</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @if (ViewBag.UserTickets != null)
+                    {
+                        @foreach (var ticket in ViewBag.UserTickets as List<MultiplexCinema.Models.Ticket>)
+                        {
+                            <tr>
+                                <td>@ticket.SeatNumber</td>
+                                <td>@ticket.Screening.Movie.Title</td>
+                                <td>@ticket.Screening.ScreeningTime</td>
+                                <td>@ticket.Price.ToString("C")</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center">Brak zakupionych biletów.</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info text-center mt-5" role="alert">
+            Aby zobaczyć swoje bilety lub zakupić nowe, musisz się <a href="/Account/Login" class="alert-link">zalogować</a>.
+        </div>
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Zarejestruj się</h5>
+                            <p class="card-text">Załóż konto, aby móc rezerwować bilety i zarządzać swoim profilem.</p>
+                            <a href="/Account/Register" class="btn btn-success">Rejestracja</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Logowanie</h5>
+                            <p class="card-text">Zaloguj się, aby uzyskać dostęp do pełnej oferty.</p>
+                            <a href="/Account/Login" class="btn btn-primary">Logowanie</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Sprawdź Seanse</h5>
+                            <p class="card-text">Przeglądaj dostępne seanse i wybierz najlepszy termin.</p>
+                            <a href="/Screenings" class="btn btn-warning">Zobacz Seanse</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+
+</div>

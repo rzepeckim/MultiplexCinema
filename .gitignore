@@ -1,0 +1,68 @@
+# .NET Core / .NET 5 / .NET 6 / .NET 7
+.vscode/
+.idea/
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# JetBrains Rider
+.idea/
+
+# User-specific files
+userSecrets/
+
+# ASP.NET temporary files
+wwwroot/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# .NET build results
+bin/
+obj/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# VS for Mac
+.vscode/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Rider
+.idea/
+
+
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# ASP.NET Core environment variables (useful for development)
+appsettings.Development.json
+
+# .NET Core user secrets
+secrets/
+
+# VSCode
+.vscode/
+
+# ASP.NET Core Authentication Tokens
+*.identitytokens
+
+# Ignore migrations folder (EF Core migrations)
+Migrations/
+
+# Ignore local history of Visual Studio Code (VSCode)
+.history/
+

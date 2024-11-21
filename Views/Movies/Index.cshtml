@@ -1,0 +1,46 @@
+@model IEnumerable<MultiplexCinema.Models.Movie>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Filmy</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Tytuł
+            </th>
+            <th>
+                Opis
+            </th>
+            <th>
+                Czas trwania
+            </th>
+            <th>
+               Gatunek
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Duration)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genre)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

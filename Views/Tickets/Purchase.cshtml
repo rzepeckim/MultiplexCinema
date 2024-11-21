@@ -1,0 +1,72 @@
+@model PurchaseViewModel
+
+<h2 class="mt-4">Kup Bilet</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<form asp-action="Purchase" method="post">
+    @Html.AntiForgeryToken()
+
+
+    <div class="form-group">
+        <label asp-for="MovieId" class="control-label">Wybierz film:</label>
+        <select asp-for="MovieId" class="form-control" asp-items="Model.AvailableMovies" id="movieSelect">
+            <option value="">Wybierz film</option>
+        </select>
+        <span asp-validation-for="MovieId" class="text-danger"></span>
+    </div>
+
+
+    <div class="form-group">
+        <label asp-for="ScreeningId" class="control-label">Wybierz seans:</label>
+        <select asp-for="ScreeningId" class="form-control" id="screeningSelect">
+            <option value="">Wybierz seans</option>
+        </select>
+        <span asp-validation-for="ScreeningId" class="text-danger"></span>
+    </div>
+
+
+    <div class="form-group">
+        <label asp-for="TicketType" class="control-label">Rodzaj biletu:</label>
+        <select asp-for="TicketType" class="form-control">
+            <option value="Normalny">Normalny</option>
+            <option value="Ulgowy">Ulgowy</option>
+        </select>
+        <span asp-validation-for="TicketType" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Kup Bilet</button>
+</form>
+
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $("#movieSelect").change(function () {
+            var movieId = $(this).val();
+            if (movieId) {
+                $.ajax({
+                    url: "/Purchase/GetScreeningsForMovie",
+                    type: "GET",
+                    data: { movieId: movieId },
+                    success: function (data) {
+                        var options = "<option value=''>Wybierz seans</option>";
+                        $.each(data, function (index, item) {
+                            options += "<option value='" + item.value + "'>" + item.text + "</option>";
+                        });
+                        $("#screeningSelect").html(options);
+                    },
+                    error: function () {
+                        alert("Wystąpił błąd podczas pobierania seansów.");
+                    }
+                });
+            } else {
+                $("#screeningSelect").html("<option value=''>Wybierz seans</option>");
+            }
+        });
+    </script>
+}
